@@ -28,12 +28,12 @@ namespace WPF_Quiz_Anwendung
 
         private void LoadQuiz(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void OpenDefaultQuiz(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new QuestionPage());
         }
 
         private void Navigate_CreateQuizPage(object sender, RoutedEventArgs e)
@@ -43,7 +43,7 @@ namespace WPF_Quiz_Anwendung
 
         private void Navigate_SettingsPage(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new SettingsPage());
         }
     }
 }

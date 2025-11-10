@@ -8,6 +8,54 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage"
       Background="#F3C8FF">
+
+    <Page.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#D88BEF"/>
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.02" ScaleY="1.02"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C06ADF"/>
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
     <Viewbox Stretch="Uniform" StretchDirection="Both">
         <Grid Width="800" Height="450" ShowGridLines="False" Background="#F3C8FF">
             <Grid.ColumnDefinitions>
@@ -22,10 +70,10 @@
             </Grid.RowDefinitions>
             <Image Source="/Images/QuizzzardLogo.png" Grid.Column="0" Grid.ColumnSpan="3"></Image>
             <Image Source="/Images/Group 5.png" Grid.Column="2" Grid.ColumnSpan="2"></Image>
-            <Button x:Name="Standard_Quiz" Grid.Column="0" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Standart Quiz" FontSize="17" FontWeight="Bold" FontFamily="Grandstander" Click="OpenDefaultQuiz" ></Button>
-            <Button x:Name="Load_Quiz" Grid.Column="1" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz Laden" FontSize="17" FontWeight="Bold" FontFamily="Grandstander" Click="LoadQuiz" ></Button>
-            <Button x:Name="Create_Quiz" Grid.Column="2" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz erstellen" FontSize="17" FontWeight="Bold" FontFamily="Grandstander" Click="Navigate_CreateQuizPage" ></Button>
-            <Button x:Name="Settings" Grid.Column="3" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Einstellungen" FontSize="17" FontWeight="Bold" FontFamily="Grandstander" Click="Navigate_SettingsPage" ></Button>
+            <Button x:Name="Standard_Quiz" Grid.Column="0" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Standart Quiz" FontFamily="Grandstander" Click="OpenDefaultQuiz" Style="{StaticResource RoundedButtonStyle}"></Button>
+            <Button x:Name="Load_Quiz" Grid.Column="1" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz Laden" FontFamily="Grandstander" Click="LoadQuiz" Style="{StaticResource RoundedButtonStyle}"></Button>
+            <Button x:Name="Create_Quiz" Grid.Column="2" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz erstellen" FontFamily="Grandstander" Click="Navigate_CreateQuizPage" Style="{StaticResource RoundedButtonStyle}"></Button>
+            <Button x:Name="Settings" Grid.Column="3" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Einstellungen" FontFamily="Grandstander" Click="Navigate_SettingsPage" Style="{StaticResource RoundedButtonStyle}"></Button>
         </Grid>
     </Viewbox>
 </Page>
