@@ -23,6 +23,7 @@ namespace WPF_Quiz_Anwendung
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Navigate(new MainPage());
         }
     }
 }
