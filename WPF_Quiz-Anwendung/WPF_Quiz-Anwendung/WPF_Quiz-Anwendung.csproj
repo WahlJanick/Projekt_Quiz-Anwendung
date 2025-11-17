@@ -55,6 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="QuestionPage.xaml.cs">
+      <DependentUpon>QuestionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,10 +73,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="QuestionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -86,6 +107,24 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Grandstander-Black.ttf" />
+    <Resource Include="Fonts\Grandstander-BlackItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Bold.ttf" />
+    <Resource Include="Fonts\Grandstander-BoldItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraBold.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraLight.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Italic.ttf" />
+    <Resource Include="Fonts\Grandstander-Light.ttf" />
+    <Resource Include="Fonts\Grandstander-LightItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Medium.ttf" />
+    <Resource Include="Fonts\Grandstander-MediumItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Regular.ttf" />
+    <Resource Include="Fonts\Grandstander-SemiBold.ttf" />
+    <Resource Include="Fonts\Grandstander-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Thin.ttf" />
+    <Resource Include="Fonts\Grandstander-ThinItalic.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,6 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\QuizzzardLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Group 5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
