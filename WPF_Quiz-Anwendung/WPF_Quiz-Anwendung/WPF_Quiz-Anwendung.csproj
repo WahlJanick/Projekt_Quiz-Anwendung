@@ -107,7 +107,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Fonts\Grandstander-Black.ttf" />
+    <Resource Include="Fonts\Grandstander-Black.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Fonts\Grandstander-BlackItalic.ttf" />
     <Resource Include="Fonts\Grandstander-Bold.ttf" />
     <Resource Include="Fonts\Grandstander-BoldItalic.ttf" />
@@ -138,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Group 5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AccessibilityIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
