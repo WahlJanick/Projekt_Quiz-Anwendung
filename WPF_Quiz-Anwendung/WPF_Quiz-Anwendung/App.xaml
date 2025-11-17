@@ -6,7 +6,7 @@
     <Application.Resources>
 
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Background" Value="#C772DF"/>

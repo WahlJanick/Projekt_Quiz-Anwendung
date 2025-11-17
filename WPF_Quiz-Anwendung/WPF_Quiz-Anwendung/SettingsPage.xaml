@@ -1,4 +1,4 @@
-﻿<Page x:Class="WPF_Quiz_Anwendung.SettingsPage"
+﻿<Page x:Class="WPF_Quiz_Anwendung.QuestionPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,26 @@
       xmlns:local="clr-namespace:WPF_Quiz_Anwendung"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="SettingsPage">
+      Title="QuestionPage"
+      Background="#F3C8FF">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="325"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="325"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="1" Grid.Column="1" Background="#FFF3D7FF" Grid.ColumnSpan="1" Grid.RowSpan="1"/>
+
+
     </Grid>
 </Page>
