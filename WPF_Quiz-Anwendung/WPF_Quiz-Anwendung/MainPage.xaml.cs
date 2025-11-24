@@ -16,6 +16,7 @@ using WPF_Quiz_Anwendung.Classes;
 
 namespace WPF_Quiz_Anwendung
 {
+    
     public partial class MainPage : Page
     {
         public MainPage()
@@ -27,44 +28,20 @@ namespace WPF_Quiz_Anwendung
         private void LoadQuiz(object sender, RoutedEventArgs e)
         {
             Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
-            NavigationService.Navigate(new QuestionPage());
+            if (loadedQuiz != null)
+            {
+                NavigationService.Navigate(new QuestionPage(loadedQuiz));
+            }
+
         }
 
         private void OpenDefaultQuiz(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new QuestionPage());
         }
 
         private void Navigate_CreateQuizPage(object sender, RoutedEventArgs e)
         {
-            var quiz = new WPF_Quiz_Anwendung.Classes.Quiz(
-                "Allgemeinwissen",
-                new List<WPF_Quiz_Anwendung.Classes.Question>
-                {
-                new WPF_Quiz_Anwendung.Classes.Question(
-                "Was ist die Hauptstadt von Deutschland?",
-                    WPF_Quiz_Anwendung.Classes.QuestionType.SingleRightAnswer,
-                    new List<WPF_Quiz_Anwendung.Classes.Answer>
-                    {
-                        new WPF_Quiz_Anwendung.Classes.Answer("Berlin", true),
-                        new WPF_Quiz_Anwendung.Classes.Answer("München", false),
-                        new WPF_Quiz_Anwendung.Classes.Answer("Hamburg", false)
-                    }
-                ),
-                new WPF_Quiz_Anwendung.Classes.Question(
-                    "Welche Farben hat die deutsche Flagge?",
-                    WPF_Quiz_Anwendung.Classes.QuestionType.MultipleRightAnswers,
-                    new List<WPF_Quiz_Anwendung.Classes.Answer>
-                    {
-                        new WPF_Quiz_Anwendung.Classes.Answer("Schwarz", true),
-                        new WPF_Quiz_Anwendung.Classes.Answer("Rot", true),
-                        new WPF_Quiz_Anwendung.Classes.Answer("Gelb", true),
-                        new WPF_Quiz_Anwendung.Classes.Answer("Grün", false)
-                    }
-                )
-                }
-            );
-            QuizFileHandler.SaveQuizToFile(quiz);
+            
         }
 
         private void Navigate_SettingsPage(object sender, RoutedEventArgs e)

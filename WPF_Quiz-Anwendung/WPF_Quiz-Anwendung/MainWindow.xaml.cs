@@ -15,15 +15,22 @@ using System.Windows.Shapes;
 
 namespace WPF_Quiz_Anwendung
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
             MainFrame.Navigate(new MainPage());
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+        }
+
+        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                MainFrame.Navigate(new MainPage());
+                e.Handled = true;
+            }
         }
     }
 }

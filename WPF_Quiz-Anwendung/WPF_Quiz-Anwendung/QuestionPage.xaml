@@ -21,15 +21,15 @@
 
         <Border Grid.Row="0" Grid.Column="1" Margin="20"
                 Style="{StaticResource RoundedContainerStyle}">
-            <TextBlock Name="QuestionTitleTB" Text="" />
+            <TextBlock Name="QuestionTitleTB" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Border>
 
-        <Rectangle Fill="#FFF3D7FF" Margin="14,165,571,30" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+        <Rectangle Fill="#FFF3D7FF" Margin="15,184,583,29" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="51.167"/>
+                    <RotateTransform Angle="65.776"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
@@ -44,19 +44,19 @@
         <UniformGrid Name="AnswerGrid" Grid.Row="1" Grid.Column="1" Columns="2" Rows="2" Margin="10">
             
             <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort A"/>
+                <Button Click="AnswerClick" Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort A"/>
             </Border>
 
             <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort B"/>
+                <Button Click="AnswerClick" Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort B"/>
             </Border>
 
             <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort C"/>
+                <Button Click="AnswerClick" Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort C"/>
             </Border>
 
             <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort D"/>
+                <Button Click="AnswerClick" Style="{StaticResource RoundedButtonStyle}" Background="Transparent" BorderThickness="0" Content="Antwort D"/>
             </Border>
         </UniformGrid>
     </Grid>
