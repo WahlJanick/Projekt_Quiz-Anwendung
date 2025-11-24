@@ -24,5 +24,10 @@ namespace WPF_Quiz_Anwendung
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

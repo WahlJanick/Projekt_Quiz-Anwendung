@@ -11,9 +11,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="325"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="325"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <!-- Titel -->
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+        <TextBlock x:Name="Überschrift" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
                    Text="Einstellungen"
                    FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
                    FontSize="36"
@@ -36,7 +36,7 @@
                    Foreground="Black"/>
 
         <!-- Accessibility Box -->
-        <Border Grid.Row="1" Grid.Column="1"
+        <Border x:Name="Border1" Grid.Row="1" Grid.Column="1"
                 Background="#E9C0F0"
                 CornerRadius="4"
                 Padding="8"
@@ -51,7 +51,7 @@
                     <ColumnDefinition Width="42"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
+                <TextBlock x:Name="Accessibility" Grid.Row="0" Grid.Column="0"
                            Text="Accessibility"
                            FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
                            FontSize="28"
@@ -67,11 +67,11 @@
                     <Image Source="/Images/AccessibilityIcon.png" Stretch="Fill"/>
                 </Border>
 
-                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                <ListBox x:Name="Box1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                          Background="#DDA9E6"
                          BorderThickness="0"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         Margin="0,4,0,0">
+                         Margin="0,4,0,0" SelectionChanged="ListBox_SelectionChanged">
                     <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0"/>
                     <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0"/>
                     <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0"/>
@@ -81,7 +81,7 @@
         </Border>
 
         <!-- Theme Auswahl Box -->
-        <Border Grid.Row="1" Grid.Column="3"
+        <Border x:Name="Border2" Grid.Row="1" Grid.Column="3"
                 Background="#E9C0F0"
                 CornerRadius="4"
                 Padding="8"
@@ -95,7 +95,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
+                <TextBlock x:Name="Theme" Grid.Row="0" Grid.Column="0"
                            Text="Theme Auswahl"
                            FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
                            FontSize="28"
@@ -103,21 +103,21 @@
                            VerticalAlignment="Center"
                            Foreground="Black"/>
 
-                <ListBox Grid.Row="1" Grid.Column="0"
+                <ListBox x:Name="Box2" Grid.Row="1" Grid.Column="0"
                          Background="#DDA9E6"
                          BorderThickness="0"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                          Margin="0,4,0,0">
                     <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0"/>
                     <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0"/>
+                    <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,0" />
                     <ListBoxItem Content="Placeholder" Background="#CE8FD9" Margin="0,2,0,4"/>
                 </ListBox>
             </Grid>
         </Border>
 
         <!-- Standardfragen bearbeiten -->
-        <Border Grid.Row="2" Grid.Column="1"
+        <Border x:Name="Border3" Grid.Row="2" Grid.Column="1"
                 Background="#E9C0F0"
                 CornerRadius="4"
                 Padding="8"
@@ -131,7 +131,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0"
+                <TextBlock x:Name="Standardfragen" Grid.Column="0"
                            Text="Standardfragen bearbeiten"
                            TextWrapping="Wrap"
                            FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
@@ -140,19 +140,21 @@
                            VerticalAlignment="Center"
                            Foreground="Black"
                            Margin="0,2,8,2"/>
+                
                 <Button Grid.Column="1"
                         Content="Durchsuchen"
+                        Style="{StaticResource RoundedButtonStyle}"
                         Margin="0"
                         Padding="4,2"
                         FontSize="12"
                         Background="#C58AD1"
                         Foreground="Black"
-                        BorderBrush="Transparent"/>
+                        BorderBrush="Transparent" Click="Button_Click"/>
             </Grid>
         </Border>
 
         <!-- Dark mode -->
-        <Border Grid.Row="2" Grid.Column="3"
+        <Border x:Name="Border4" Grid.Row="2" Grid.Column="3"
                 Background="#E9C0F0"
                 CornerRadius="4"
                 Padding="8"
@@ -166,7 +168,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
             
-                <TextBlock Grid.Column="0"
+                <TextBlock x:Name="DarkMode" Grid.Column="0"
                            Text="Dark mode"
                            FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
                            FontSize="28"
