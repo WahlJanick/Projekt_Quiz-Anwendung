@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using System.Windows;
 
 namespace WPF_Quiz_Anwendung.Classes
 {
@@ -113,9 +114,16 @@ namespace WPF_Quiz_Anwendung.Classes
 
 			if (result == true && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
 			{
-				string filePath = openFileDialog.FileName;
-				string json = File.ReadAllText(filePath, Encoding.UTF8);
-				resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
+				try
+				{
+                    string filePath = openFileDialog.FileName;
+                    string json = File.ReadAllText(filePath, Encoding.UTF8);
+                    resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
+                }
+				catch(Exception e)
+				{
+					MessageBox.Show("Fehler beim öffnen der Datei: " + e.Message);
+				}
 				return resQuiz;
 			}
 			else

@@ -25,26 +25,32 @@ namespace WPF_Quiz_Anwendung
         }
 
 
-        private void LoadQuiz(object sender, RoutedEventArgs e)
+        public void LoadQuiz(object sender, RoutedEventArgs e)
         {
-            Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
-            if (loadedQuiz != null)
+            try
             {
-                NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
+                if (loadedQuiz != null)
+                {
+                    NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                }
             }
-
+            catch(Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden des Quiz: " + ex.Message);
+            }
         }
 
-        private void OpenDefaultQuiz(object sender, RoutedEventArgs e)
+        private void DefaultQuiz(object sender, RoutedEventArgs e)
         {
         }
 
-        private void Navigate_CreateQuizPage(object sender, RoutedEventArgs e)
+        public void CreateQuiz(object sender, RoutedEventArgs e)
         {
             
         }
 
-        private void Navigate_SettingsPage(object sender, RoutedEventArgs e)
+        private void SettingsPage(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new SettingsPage());
         }

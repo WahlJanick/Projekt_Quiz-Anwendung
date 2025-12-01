@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WPF_Quiz_Anwendung.Classes;
+using System.Windows.Input;
 
 namespace WPF_Quiz_Anwendung
 {
@@ -13,18 +14,31 @@ namespace WPF_Quiz_Anwendung
     {
         private Quiz currentQuiz;
         private int currentIndex = 0;
-        private bool answerClicked = false;
+        private bool answerClicked;
         private int correctAnswers = 0;
-
+        private bool multiHadError;
+            
         public QuestionPage(Quiz quiz)
         {
             InitializeComponent();
-            currentQuiz = quiz ?? throw new ArgumentNullException(nameof(quiz));
-            ShowQuestion(currentIndex);
+            this.PreviewKeyDown += QuestionPage_PreviewKeyDown;
+            this.Loaded += (s, e) => { this.Focusable = true; this.Focus(); };
+            try
+            {
+                currentQuiz = quiz;
+                ShowQuestion(currentIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Laden des Quiz: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            ;
         }
-
         private void ShowQuestion(int index)
         {
+            HelpTitleTB.Text = "[S] Frage überspringen";
+            answerClicked = false;
+            multiHadError = false;
             if (currentQuiz == null || currentQuiz.Questions.Count == 0)
             {
                 QuestionTitleTB.Text = "Kein Quiz geladen!";
@@ -34,8 +48,6 @@ namespace WPF_Quiz_Anwendung
 
             if (index < 0 || index >= currentQuiz.Questions.Count)
                 return;
-
-            answerClicked = false;
             var currentQuestion = currentQuiz.Questions[index];
             QuestionTitleTB.Text = $"Frage {index + 1}/{currentQuiz.Questions.Count}: {currentQuestion.Text}";
             AnswerGrid.Children.Clear();
@@ -99,13 +111,24 @@ namespace WPF_Quiz_Anwendung
                 {
                     btn.Background = Brushes.LightGreen;
                 }
-                else{
-                    btn.Background = Brushes.LightCoral;
+                else
+                {
+                    multiHadError = true;
+                    btn.Background = Brushes.IndianRed;
                     QuestionTitleTB.Text = "Falsch!";
+
+                    foreach (Border border in AnswerGrid.Children)
+                    {
+                        if (border.Child is Button b)
+                            b.IsEnabled = false;
+                    }
+
                     await Task.Delay(2000);
                     NextQuestion();
+                    return;
                 }
-                    bool allCorrectClicked = true;
+
+                bool allCorrectClicked = true;
                 foreach (Border border in AnswerGrid.Children)
                 {
                     if (border.Child is Button b)
@@ -119,7 +142,7 @@ namespace WPF_Quiz_Anwendung
                     }
                 }
 
-                if (allCorrectClicked)
+                if (allCorrectClicked && !multiHadError)
                 {
                     QuestionTitleTB.Text = "Richtig!";
                     correctAnswers++;
@@ -143,8 +166,27 @@ namespace WPF_Quiz_Anwendung
             }
             else
             {
-                QuestionTitleTB.Text = $"Quiz beendet mit {correctAnswers} richtigen Antworten";
+                double scorepercent = (double)correctAnswers / (double)currentQuiz.Questions.Count;
+                QuestionTitleTB.Text = $"Quiz beendet mit {(scorepercent * 100):F2}% richtigen Antworten";
+                HelpTitleTB.Text = "[ESC] um zum Hauptmenü zurückzukehren...";
                 AnswerGrid.Children.Clear();
+            }
+        }
+        private void SkipQuestion()
+        {
+            if (currentIndex < currentQuiz.Questions.Count)
+            {
+                currentIndex++;
+                ShowQuestion(currentIndex);
+            }
+        }
+
+        private void QuestionPage_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.S)
+            {
+                e.Handled = true;
+                SkipQuestion();
             }
         }
     }

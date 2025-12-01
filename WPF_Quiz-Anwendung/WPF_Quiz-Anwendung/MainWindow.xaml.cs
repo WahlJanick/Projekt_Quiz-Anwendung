@@ -29,7 +29,6 @@ namespace WPF_Quiz_Anwendung
             if (e.Key == Key.Escape)
             {
                 MainFrame.Navigate(new MainPage());
-                e.Handled = true;
             }
         }
     }
