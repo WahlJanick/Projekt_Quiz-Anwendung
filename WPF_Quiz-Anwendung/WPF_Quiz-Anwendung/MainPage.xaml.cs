@@ -1,15 +1,27 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using WPF_Quiz_Anwendung.Classes;
 
 namespace WPF_Quiz_Anwendung
 {
+    
     public partial class MainPage : Page
     {
         public MainPage()
         {
             InitializeComponent();
-            ((App)Application.Current).ThemeChanged += OnThemeChanged;
         }
 
         private void OnThemeChanged(object sender, ThemeMode mode)
@@ -17,17 +29,33 @@ namespace WPF_Quiz_Anwendung
             // Keine manuelle Anpassung erforderlich – DynamicResources aktualisieren automatisch.
             // Hier könntest du Zusatz-Effekte (z.B. Animation) einbauen.
         }
-
-        private void LoadQuiz(object sender, RoutedEventArgs e) { }
-
-        private void OpenDefaultQuiz(object sender, RoutedEventArgs e)
+        
+        public void LoadQuiz(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new QuestionPage());
+            try
+            {
+                Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
+                if (loadedQuiz != null)
+                {
+                    NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden des Quiz: " + ex.Message);
+            }
         }
 
-        private void Navigate_CreateQuizPage(object sender, RoutedEventArgs e) { }
+        private void DefaultQuiz(object sender, RoutedEventArgs e)
+        {
+        }
 
-        private void Navigate_SettingsPage(object sender, RoutedEventArgs e)
+        public void CreateQuiz(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void SettingsPage(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new SettingsPage());
         }

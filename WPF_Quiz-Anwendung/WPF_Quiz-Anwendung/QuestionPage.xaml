@@ -17,8 +17,14 @@
         <!-- Fragekarte: nutzt PanelBackgroundBrush (heller) -->
         <Border Grid.Row="0" Grid.Column="1" Margin="20"
                 Style="{StaticResource RoundedContainerStyle}">
-            <TextBlock Text=""
-                       Margin="12"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Name="QuestionTitleTB" Grid.Row="0" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Name="HelpTitleTB" Grid.Row="1" FontSize="16" Foreground="Black" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
         </Border>
 
         <Image Source="/Images/Group 5.png" Grid.Column="0" Margin="131,136,557,87" Grid.RowSpan="2" Grid.ColumnSpan="2">
