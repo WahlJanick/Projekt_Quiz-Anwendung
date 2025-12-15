@@ -63,8 +63,6 @@ namespace WPF_Quiz_Anwendung
                 {
                     Content = currentQuestion.Answers[i].Text,
                     Style = (Style)FindResource("RoundedButtonStyle"),
-                    Background = Brushes.Transparent,
-                    BorderThickness = new Thickness(0),
                     Tag = i 
                 };
                 button.Click += AnswerClick;
