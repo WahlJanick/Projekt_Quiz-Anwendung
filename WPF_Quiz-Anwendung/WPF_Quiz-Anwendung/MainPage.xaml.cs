@@ -12,12 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Quiz_Anwendung.Classes;
 
 namespace WPF_Quiz_Anwendung
 {
-    /// <summary>
-    /// Interaktionslogik für MainPage.xaml
-    /// </summary>
+    
     public partial class MainPage : Page
     {
         public MainPage()
@@ -26,22 +25,32 @@ namespace WPF_Quiz_Anwendung
         }
 
 
-        private void LoadQuiz(object sender, RoutedEventArgs e)
+        public void LoadQuiz(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
+                if (loadedQuiz != null)
+                {
+                    NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Fehler beim Laden des Quiz: " + ex.Message);
+            }
+        }
+
+        private void DefaultQuiz(object sender, RoutedEventArgs e)
+        {
+        }
+
+        public void CreateQuiz(object sender, RoutedEventArgs e)
         {
             
         }
 
-        private void OpenDefaultQuiz(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new QuestionPage());
-        }
-
-        private void Navigate_CreateQuizPage(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Navigate_SettingsPage(object sender, RoutedEventArgs e)
+        private void SettingsPage(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new SettingsPage());
         }

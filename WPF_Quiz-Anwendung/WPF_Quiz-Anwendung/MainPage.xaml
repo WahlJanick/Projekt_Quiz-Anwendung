@@ -70,10 +70,10 @@
             </Grid.RowDefinitions>
             <Image Source="/Images/QuizzzardLogo.png" Grid.Column="0" Grid.ColumnSpan="3"></Image>
             <Image Source="/Images/Group 5.png" Grid.Column="2" Grid.ColumnSpan="2"></Image>
-            <Button x:Name="Standard_Quiz" Grid.Column="0" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Standart Quiz" FontFamily="Grandstander" Click="OpenDefaultQuiz" Style="{StaticResource RoundedButtonStyle}"></Button>
+            <Button x:Name="Standard_Quiz" Grid.Column="0" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Standart Quiz" FontFamily="Grandstander" Click="DefaultQuiz" Style="{StaticResource RoundedButtonStyle}"></Button>
             <Button x:Name="Load_Quiz" Grid.Column="1" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz Laden" FontFamily="Grandstander" Click="LoadQuiz" Style="{StaticResource RoundedButtonStyle}"></Button>
-            <Button x:Name="Create_Quiz" Grid.Column="2" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz erstellen" FontFamily="Grandstander" Click="Navigate_CreateQuizPage" Style="{StaticResource RoundedButtonStyle}"></Button>
-            <Button x:Name="Settings" Grid.Column="3" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Einstellungen" FontFamily="Grandstander" Click="Navigate_SettingsPage" Style="{StaticResource RoundedButtonStyle}"></Button>
+            <Button x:Name="Create_Quiz" Grid.Column="2" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Quiz erstellen" FontFamily="Grandstander" Click="CreateQuiz" Style="{StaticResource RoundedButtonStyle}"></Button>
+            <Button x:Name="Settings" Grid.Column="3" Grid.Row="1" Margin="30 80 30 80" Background="#C772DF" BorderBrush="Purple" Content="Einstellungen" FontFamily="Grandstander" Click="SettingsPage" Style="{StaticResource RoundedButtonStyle}"></Button>
         </Grid>
     </Viewbox>
 </Page>

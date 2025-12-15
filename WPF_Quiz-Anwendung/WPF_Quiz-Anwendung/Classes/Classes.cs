@@ -4,11 +4,12 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using System.Windows;
 
 namespace WPF_Quiz_Anwendung.Classes
 {
 	
-	class Quiz
+	public class Quiz
 	{
 		public string Title { get; private set; }
 		public List<Question> Questions { get; private set; }
@@ -20,12 +21,12 @@ namespace WPF_Quiz_Anwendung.Classes
 			Questions = questions;
 		}
 	}
-	enum QuestionType
+	public enum QuestionType
 	{
 		MultipleRightAnswers,
 		SingleRightAnswer
 	}
-	class Question
+	public class Question
 	{
 		public QuestionType Type { get; private set; }
 		public string Text { get; private set; }
@@ -57,7 +58,7 @@ namespace WPF_Quiz_Anwendung.Classes
 			}
 		}
 	}
-	class Answer
+	public class Answer
 	{
 		public string Text { get; private set; }
 		public bool IsCorrect { get; private set; }
@@ -68,7 +69,7 @@ namespace WPF_Quiz_Anwendung.Classes
 			IsCorrect = isCorrect;
 		}
 	}
-	class QuizFileHandler
+	public class QuizFileHandler
 	{
 		public static void SaveQuizToFile(Quiz quiz, string filePath = "")
 		{
@@ -103,22 +104,32 @@ namespace WPF_Quiz_Anwendung.Classes
 
 		public static Quiz LoadQuizFromFile()
 		{
-			Quiz resQuiz;
+			Quiz resQuiz = null;
 			var openFileDialog = new Microsoft.Win32.OpenFileDialog
 			{
 				Filter = "JSON Dateien (*.json)|*.json|Alle Dateien (*.*)|*.*",
 				Title = "Quiz Datei öffnen"
 			};
 			bool? result = openFileDialog.ShowDialog();
-			if (result != true)
+
+			if (result == true && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
 			{
-				throw new OperationCanceledException("Dateiöffnung abgebrochen.");
+				try
+				{
+                    string filePath = openFileDialog.FileName;
+                    string json = File.ReadAllText(filePath, Encoding.UTF8);
+                    resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
+                }
+				catch(Exception e)
+				{
+					MessageBox.Show("Fehler beim öffnen der Datei: " + e.Message);
+				}
+				return resQuiz;
 			}
-			string filePath = openFileDialog.FileName;
-			if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("Ungültiger Dateipfad.");
-			string json = File.ReadAllText(filePath, Encoding.UTF8);
-			resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
-			return resQuiz;
+			else
+			{
+				return null;
+			}
 		}
 	}
 }
