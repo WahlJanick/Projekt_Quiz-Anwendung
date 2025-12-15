@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +24,12 @@ namespace WPF_Quiz_Anwendung
             InitializeComponent();
         }
 
-
+        private void OnThemeChanged(object sender, ThemeMode mode)
+        {
+            // Keine manuelle Anpassung erforderlich – DynamicResources aktualisieren automatisch.
+            // Hier könntest du Zusatz-Effekte (z.B. Animation) einbauen.
+        }
+        
         public void LoadQuiz(object sender, RoutedEventArgs e)
         {
             try

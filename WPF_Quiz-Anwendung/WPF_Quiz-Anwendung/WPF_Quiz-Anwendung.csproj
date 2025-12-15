@@ -133,8 +133,26 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-
-    <None Include="packages.config" />
+    <Resource Include="Fonts\Grandstander-Black.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Grandstander-BlackItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Bold.ttf" />
+    <Resource Include="Fonts\Grandstander-BoldItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraBold.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraLight.ttf" />
+    <Resource Include="Fonts\Grandstander-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Italic.ttf" />
+    <Resource Include="Fonts\Grandstander-Light.ttf" />
+    <Resource Include="Fonts\Grandstander-LightItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Medium.ttf" />
+    <Resource Include="Fonts\Grandstander-MediumItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Regular.ttf" />
+    <Resource Include="Fonts\Grandstander-SemiBold.ttf" />
+    <Resource Include="Fonts\Grandstander-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\Grandstander-Thin.ttf" />
+    <Resource Include="Fonts\Grandstander-ThinItalic.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -149,6 +167,8 @@
     <Resource Include="Images\QuizzzardLogo.png" />
     <Resource Include="Images\Group 5.png" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Resource Include="Images\AccessibilityIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
