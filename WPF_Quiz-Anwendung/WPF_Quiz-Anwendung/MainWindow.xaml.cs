@@ -20,6 +20,11 @@ namespace WPF_Quiz_Anwendung
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowStyle = WindowStyle.None;
+            this.WindowState = WindowState.Maximized;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.Topmost = true;
+
             MainFrame.Navigate(new MainPage());
             this.PreviewKeyDown += MainWindow_PreviewKeyDown;
         }
@@ -28,7 +33,14 @@ namespace WPF_Quiz_Anwendung
         {
             if (e.Key == Key.Escape)
             {
-                MainFrame.Navigate(new MainPage());
+                if (MainFrame.Content is MainPage)
+                {
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    MainFrame.Navigate(new MainPage());
+                }
             }
         }
     }

@@ -33,27 +33,6 @@
             </Image.RenderTransform>
         </Image>
 
-        <!-- Antwortkarten: ebenfalls PanelBackgroundBrush (heller) -->
-        <UniformGrid Grid.Row="1" Grid.Column="1" Columns="2" Rows="2" Margin="10">
-            <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}"
-                        Background="Transparent" BorderThickness="0" Content="Antwort A"/>
-            </Border>
-
-            <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}"
-                        Background="Transparent" BorderThickness="0" Content="Antwort B" Click="Button_Click"/>
-            </Border>
-
-            <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}"
-                        Background="Transparent" BorderThickness="0" Content="Antwort C"/>
-            </Border>
-
-            <Border Margin="15" Style="{StaticResource RoundedContainerStyle}">
-                <Button Style="{StaticResource RoundedButtonStyle}"
-                        Background="Transparent" BorderThickness="0" Content="Antwort D"/>
-            </Border>
-        </UniformGrid>
+        <UniformGrid x:Name="AnswerGrid" Grid.Row="1" Grid.Column="1" Columns="2" Rows="2" Margin="10"/>
     </Grid>
 </Page>

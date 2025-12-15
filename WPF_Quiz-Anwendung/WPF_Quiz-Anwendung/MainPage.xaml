@@ -26,9 +26,9 @@
                     Margin="30 80 30 80"
                     Background="{DynamicResource AccentBrush}"
                     BorderBrush="{DynamicResource BorderBrush}"
-                    Content="Standart Quiz"
+                    Content="Standard Quiz"
                     FontFamily="Grandstander"
-                    Click="OpenDefaultQuiz"
+                    Click="DefaultQuiz"
                     Style="{StaticResource RoundedButtonStyle}"/>
 
             <Button x:Name="Load_Quiz" Grid.Column="1" Grid.Row="1"
@@ -46,7 +46,7 @@
                     BorderBrush="{DynamicResource BorderBrush}"
                     Content="Quiz erstellen"
                     FontFamily="Grandstander"
-                    Click="Navigate_CreateQuizPage"
+                    Click="CreateQuiz"
                     Style="{StaticResource RoundedButtonStyle}"/>
 
             <Button x:Name="Settings" Grid.Column="3" Grid.Row="1"
@@ -55,7 +55,7 @@
                     BorderBrush="{DynamicResource BorderBrush}"
                     Content="Einstellungen"
                     FontFamily="Grandstander"
-                    Click="Navigate_SettingsPage"
+                    Click="SettingsPage"
                     Style="{StaticResource RoundedButtonStyle}"/>
         </Grid>
     </Viewbox>
