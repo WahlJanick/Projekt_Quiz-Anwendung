@@ -8,7 +8,11 @@ using System.Windows;
 
 namespace WPF_Quiz_Anwendung.Classes
 {
-	
+	public class Config
+	{
+		public static string UserName { get; set; }
+		public static Dictionary<string, bool> AccessibilitySettings { get; set; }
+    }
 	public class Quiz
 	{
 		public string Title { get; private set; }
@@ -102,25 +106,30 @@ namespace WPF_Quiz_Anwendung.Classes
 			File.WriteAllText(filePath, json, Encoding.UTF8);
 		}
 
-		public static Quiz LoadQuizFromFile()
+		public static Quiz LoadQuizFromFile(string inp = "")
 		{
-			Quiz resQuiz = null;
-			var openFileDialog = new Microsoft.Win32.OpenFileDialog
+			bool? result;
+            Quiz resQuiz = null;
+			if (inp == "")
 			{
-				Filter = "JSON Dateien (*.json)|*.json|Alle Dateien (*.*)|*.*",
-				Title = "Quiz Datei öffnen"
-			};
-			bool? result = openFileDialog.ShowDialog();
-
-			if (result == true && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+				var openFileDialog = new Microsoft.Win32.OpenFileDialog
+				{
+					Filter = "JSON Dateien (*.json)|*.json|Alle Dateien (*.*)|*.*",
+					Title = "Quiz Datei öffnen"
+				};
+				result = openFileDialog.ShowDialog();
+				inp = openFileDialog.FileName;
+			}
+			else result = true;
+			if (result == true && !string.IsNullOrWhiteSpace(inp))
 			{
 				try
 				{
-                    string filePath = openFileDialog.FileName;
-                    string json = File.ReadAllText(filePath, Encoding.UTF8);
-                    resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
-                }
-				catch(Exception e)
+					string filePath = inp;
+					string json = File.ReadAllText(filePath, Encoding.UTF8);
+					resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
+				}
+				catch (Exception e)
 				{
 					MessageBox.Show("Fehler beim öffnen der Datei: " + e.Message);
 				}
@@ -131,5 +140,13 @@ namespace WPF_Quiz_Anwendung.Classes
 				return null;
 			}
 		}
-	}
+		public static void LoadConfigFromFile()
+		{
+			
+        }
+		public static void SaveConfigToFile()
+		{
+			
+        }
+    }
 }
