@@ -16,7 +16,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Image Source="/Images/QuizzzardLogo.png"
+            <Image Source="/Images/QuizzzardLogo (1).png"
                    Grid.Column="0" Grid.ColumnSpan="3"/>
 
             <Image Source="/Images/Group 5.png"

@@ -17,8 +17,9 @@ namespace WPF_Quiz_Anwendung
         private bool answerClicked;
         private int correctAnswers = 0;
         private bool multiHadError;
+        private string quizFilePath;
             
-        public QuestionPage(Quiz quiz)
+        public QuestionPage(Quiz quiz, string filePath = "")
         {
             InitializeComponent();
             this.PreviewKeyDown += QuestionPage_PreviewKeyDown;
@@ -26,14 +27,15 @@ namespace WPF_Quiz_Anwendung
             try
             {
                 currentQuiz = quiz;
+                quizFilePath = filePath;
                 ShowQuestion(currentIndex);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Fehler beim Laden des Quiz: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            ;
         }
+
         private void ShowQuestion(int index)
         {
             HelpTitleTB.Text = "[S] Frage überspringen";
@@ -164,18 +166,87 @@ namespace WPF_Quiz_Anwendung
             }
             else
             {
-                double scorepercent = (double)correctAnswers / (double)currentQuiz.Questions.Count;
-                QuestionTitleTB.Text = $"Quiz beendet mit {(scorepercent * 100):F2}% richtigen Antworten";
-                HelpTitleTB.Text = "[ESC] um zum Hauptmenü zurückzukehren...";
-                AnswerGrid.Children.Clear();
+                ShowQuizEnd();
             }
         }
+
+        private void ShowQuizEnd()
+        {
+            double scorepercent = (double)correctAnswers / (double)currentQuiz.Questions.Count;
+            QuestionTitleTB.Text = $"Quiz beendet mit {(scorepercent * 100):F2}% richtigen Antworten";
+            HelpTitleTB.Text = "[ESC] um zum Hauptmenü zurückzukehren...";
+            AnswerGrid.Children.Clear();
+
+            // Leaderboard-Eintrag hinzufügen (ohne Benutzernamen-Dialog - das macht jemand anders)
+            currentQuiz.AddLeaderboardEntry("Anonym", correctAnswers);
+
+            // Quiz mit Leaderboard in die Datei zurückschreiben
+            if (!string.IsNullOrWhiteSpace(quizFilePath))
+            {
+                try
+                {
+                    QuizFileHandler.SaveQuizToFile(currentQuiz, quizFilePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Speichern des Leaderboards: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+
+            // Leaderboard auf gleicher Seite anzeigen
+            ShowLeaderboard();
+        }
+
+        private void ShowLeaderboard()
+        {
+            // AnswerGrid ausblenden
+            AnswerGrid.Visibility = Visibility.Collapsed;
+
+            // Leaderboard-Container einblenden
+            LeaderboardContainer.Visibility = Visibility.Visible;
+
+            // Leaderboard-Einträge laden
+            LeaderboardListBox.Items.Clear();
+
+            var topEntries = currentQuiz.GetTopEntries(10);
+            for (int i = 0; i < topEntries.Count; i++)
+            {
+                var entry = topEntries[i];
+                var item = new ListBoxItem
+                {
+                    Content = $"{i + 1}. {entry.UserName} - {entry.Score}/{currentQuiz.Questions.Count} ({entry.ScorePercent:F1}%) - {entry.Date:dd.MM.yyyy HH:mm}",
+                    Padding = new Thickness(10, 8, 10, 8),
+                    FontSize = 16
+                };
+                LeaderboardListBox.Items.Add(item);
+            }
+
+            if (topEntries.Count == 0)
+            {
+                var emptyItem = new ListBoxItem
+                {
+                    Content = "Noch keine Einträge im Leaderboard",
+                    Padding = new Thickness(10, 8, 10, 8),
+                    IsEnabled = false,
+                    FontSize = 16
+                };
+                LeaderboardListBox.Items.Add(emptyItem);
+            }
+        }
+
         private void SkipQuestion()
         {
             if (currentIndex < currentQuiz.Questions.Count)
             {
                 currentIndex++;
-                ShowQuestion(currentIndex);
+                if (currentIndex < currentQuiz.Questions.Count)
+                {
+                    ShowQuestion(currentIndex);
+                }
+                else
+                {
+                    ShowQuizEnd();
+                }
             }
         }
 

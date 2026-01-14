@@ -8,30 +8,77 @@ using System.Windows;
 
 namespace WPF_Quiz_Anwendung.Classes
 {
-	
+	public class LeaderboardEntry
+	{
+		public string UserName { get; set; }
+		public int Score { get; set; }
+		public double ScorePercent { get; set; }
+		public DateTime Date { get; set; }
+
+		public LeaderboardEntry(string userName, int score, int totalQuestions)
+		{
+			if (string.IsNullOrWhiteSpace(userName))
+				userName = "Anonym";
+			
+			UserName = userName;
+			Score = score;
+			ScorePercent = totalQuestions > 0 ? (double)score / totalQuestions * 100 : 0;
+			Date = DateTime.Now;
+		}
+
+		// Parameterloser Konstruktor für JSON-Deserialisierung
+		public LeaderboardEntry()
+		{
+		}
+	}
+
 	public class Quiz
 	{
-		public string Title { get; private set; }
-		public List<Question> Questions { get; private set; }
+		public string Title { get; set; }
+		public List<Question> Questions { get; set; }
+		public List<LeaderboardEntry> Leaderboard { get; set; }
+
 		public Quiz(string title, List<Question> questions)
 		{
 			if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("title darf nicht leer sein");
 			if (questions == null) throw new ArgumentNullException();
 			Title = title;
 			Questions = questions;
+			Leaderboard = new List<LeaderboardEntry>();
+		}
+
+		// Parameterloser Konstruktor für JSON-Deserialisierung
+		public Quiz()
+		{
+			Leaderboard = new List<LeaderboardEntry>();
+		}
+
+		public void AddLeaderboardEntry(string userName, int score)
+		{
+			var entry = new LeaderboardEntry(userName, score, Questions.Count);
+			Leaderboard.Add(entry);
+			Leaderboard = Leaderboard.OrderByDescending(e => e.Score).ThenBy(e => e.Date).ToList();
+		}
+
+		public List<LeaderboardEntry> GetTopEntries(int count = 10)
+		{
+			return Leaderboard.Take(count).ToList();
 		}
 	}
+
 	public enum QuestionType
 	{
 		MultipleRightAnswers,
 		SingleRightAnswer
 	}
+
 	public class Question
 	{
-		public QuestionType Type { get; private set; }
-		public string Text { get; private set; }
-		public List<Answer> Answers { get; private set; }
-		public List<int> CorrectAnswerIndexes { get; private set; } = new List<int>();
+		public QuestionType Type { get; set; }
+		public string Text { get; set; }
+		public List<Answer> Answers { get; set; }
+		public List<int> CorrectAnswerIndexes { get; set; } = new List<int>();
+
 		public Question(string text, QuestionType type, List<Answer> answers)
 		{
 			if (string.IsNullOrWhiteSpace(text)) throw new ArgumentException("text darf nicht leer sein");
@@ -41,6 +88,13 @@ namespace WPF_Quiz_Anwendung.Classes
 			Answers = answers;
 			GetCorrectAnswerIndexes();
 		}
+
+		// Parameterloser Konstruktor für JSON-Deserialisierung
+		public Question()
+		{
+			CorrectAnswerIndexes = new List<int>();
+		}
+
 		public void GetCorrectAnswerIndexes()
 		{
 			CorrectAnswerIndexes.Clear();
@@ -58,17 +112,25 @@ namespace WPF_Quiz_Anwendung.Classes
 			}
 		}
 	}
+
 	public class Answer
 	{
-		public string Text { get; private set; }
-		public bool IsCorrect { get; private set; }
+		public string Text { get; set; }
+		public bool IsCorrect { get; set; }
+
 		public Answer(string text, bool isCorrect)
 		{
 			if (string.IsNullOrWhiteSpace(text)) throw new ArgumentException("Text darf nicht leer sein");
 			Text = text;
 			IsCorrect = isCorrect;
 		}
+
+		// Parameterloser Konstruktor für JSON-Deserialisierung
+		public Answer()
+		{
+		}
 	}
+
 	public class QuizFileHandler
 	{
 		public static void SaveQuizToFile(Quiz quiz, string filePath = "")
@@ -102,9 +164,10 @@ namespace WPF_Quiz_Anwendung.Classes
 			File.WriteAllText(filePath, json, Encoding.UTF8);
 		}
 
-		public static Quiz LoadQuizFromFile()
+		public static Quiz LoadQuizFromFile(out string filePath)
 		{
 			Quiz resQuiz = null;
+			filePath = "";
 			var openFileDialog = new Microsoft.Win32.OpenFileDialog
 			{
 				Filter = "JSON Dateien (*.json)|*.json|Alle Dateien (*.*)|*.*",
@@ -116,11 +179,26 @@ namespace WPF_Quiz_Anwendung.Classes
 			{
 				try
 				{
-                    string filePath = openFileDialog.FileName;
-                    string json = File.ReadAllText(filePath, Encoding.UTF8);
-                    resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
-                }
-				catch(Exception e)
+					filePath = openFileDialog.FileName;
+					string json = File.ReadAllText(filePath, Encoding.UTF8);
+					resQuiz = JsonConvert.DeserializeObject<Quiz>(json);
+					
+					// Sicherstellen, dass Leaderboard initialisiert ist
+					if (resQuiz != null && resQuiz.Leaderboard == null)
+					{
+						resQuiz.Leaderboard = new List<LeaderboardEntry>();
+					}
+
+					// CorrectAnswerIndexes neu berechnen nach dem Laden
+					if (resQuiz != null && resQuiz.Questions != null)
+					{
+						foreach (var question in resQuiz.Questions)
+						{
+							question.GetCorrectAnswerIndexes();
+						}
+					}
+				}
+				catch (Exception e)
 				{
 					MessageBox.Show("Fehler beim öffnen der Datei: " + e.Message);
 				}

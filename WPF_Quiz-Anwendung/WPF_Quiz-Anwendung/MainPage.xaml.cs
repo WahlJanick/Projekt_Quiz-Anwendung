@@ -34,10 +34,11 @@ namespace WPF_Quiz_Anwendung
         {
             try
             {
-                Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
+                string loadedFilePath;
+                Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile(out loadedFilePath);
                 if (loadedQuiz != null)
                 {
-                    NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                    NavigationService.Navigate(new QuestionPage(loadedQuiz, loadedFilePath));
                 }
             }
             catch(Exception ex)
