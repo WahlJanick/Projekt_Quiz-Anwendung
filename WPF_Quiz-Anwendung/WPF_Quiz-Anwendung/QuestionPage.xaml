@@ -27,12 +27,34 @@
             </Grid>
         </Border>
 
-        <Image Source="/Images/Group 5.png" Grid.Column="0" Margin="131,136,557,87" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Image Source="/Images/Group 5.png" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Image.RenderTransform>
                 <ScaleTransform ScaleX="-1"/>
             </Image.RenderTransform>
         </Image>
 
         <UniformGrid x:Name="AnswerGrid" Grid.Row="1" Grid.Column="1" Columns="2" Rows="2" Margin="10"/>
+
+        <!-- Leaderboard Container (initial unsichtbar) -->
+        <Border x:Name="LeaderboardContainer" Grid.Row="1" Grid.Column="1" Margin="10"
+                Style="{StaticResource RoundedContainerStyle}"
+                Visibility="Collapsed">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="🏆 Top 10 Leaderboard" 
+                           FontSize="28" FontWeight="Bold" 
+                           HorizontalAlignment="Center"/>
+
+                <ListBox x:Name="LeaderboardListBox" Grid.Row="2" 
+                         FontSize="16"
+                         Background="{DynamicResource PanelBackgroundBrush}"
+                         BorderThickness="0"/>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

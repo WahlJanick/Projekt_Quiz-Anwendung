@@ -1,22 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WPF_Quiz_Anwendung.Classes;
 
 namespace WPF_Quiz_Anwendung
 {
-    
     public partial class MainPage : Page
     {
         public MainPage()
@@ -24,23 +13,44 @@ namespace WPF_Quiz_Anwendung
             InitializeComponent();
         }
 
-        private void OnThemeChanged(object sender, ThemeMode mode)
+        private void LoadQuiz_Click(object sender, RoutedEventArgs e)
         {
-            // Keine manuelle Anpassung erforderlich – DynamicResources aktualisieren automatisch.
-            // Hier könntest du Zusatz-Effekte (z.B. Animation) einbauen.
+            Load();
         }
-        
-        public void LoadQuiz(object sender, RoutedEventArgs e)
+
+        public void Load()
+        {
+            Load(null);
+        }
+
+        public void Load(string path)
         {
             try
             {
-                Quiz loadedQuiz = QuizFileHandler.LoadQuizFromFile();
+                Quiz loadedQuiz;
+
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    loadedQuiz = QuizFileHandler.LoadQuizFromFile(path);
+                }
+                else
+                {
+                    loadedQuiz = QuizFileHandler.LoadQuizFromFile();
+                }
+
                 if (loadedQuiz != null)
                 {
-                    NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                    if (!string.IsNullOrWhiteSpace(Config.UserName))
+                    {
+                        NavigationService.Navigate(new QuestionPage(loadedQuiz));
+                    }
+                    else
+                    {
+                        NavigationService.Navigate(new NameInputPage(new QuestionPage(loadedQuiz)));
+                    }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Fehler beim Laden des Quiz: " + ex.Message);
             }
@@ -48,11 +58,11 @@ namespace WPF_Quiz_Anwendung
 
         private void DefaultQuiz(object sender, RoutedEventArgs e)
         {
+            Load(Config.DefaultQuestionPath);
         }
 
         public void CreateQuiz(object sender, RoutedEventArgs e)
         {
-            
         }
 
         private void SettingsPage(object sender, RoutedEventArgs e)

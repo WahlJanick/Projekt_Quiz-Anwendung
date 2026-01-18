@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using WPF_Quiz_Anwendung.Classes;
 
 namespace WPF_Quiz_Anwendung
 {
-    public enum ThemeMode { Light, Dark }
-
     public partial class App : Application
     {
-        public ThemeMode CurrentTheme { get; private set; } = ThemeMode.Light;
+        public Theme CurrentTheme { get; private set; } = Theme.Light;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            if (Properties.Contains("Theme")
-                && Enum.TryParse(Properties["Theme"] as string, out ThemeMode saved))
-            {
-                ApplyTheme(saved);
-            }
-            else
-            {
-                ApplyTheme(CurrentTheme);
-            }
+
+            QuizFileHandler.LoadConfigFromFile();
+
+            if (!Enum.IsDefined(typeof(Theme), Config.Theme))
+                Config.Theme = Theme.Light;
+
+            ApplyTheme(Config.Theme);
+        }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            QuizFileHandler.SaveConfigToFile();
+            base.OnExit(e);
         }
 
-        public event EventHandler<ThemeMode> ThemeChanged;
+        public event EventHandler<Theme> ThemeChanged;
 
-        public void ApplyTheme(ThemeMode mode)
+        public void ApplyTheme(Theme mode)
         {
             void Set(string key, string colorHex)
             {
@@ -34,10 +36,10 @@ namespace WPF_Quiz_Anwendung
                 Resources[key] = new SolidColorBrush(color);
             }
 
-            if (mode == ThemeMode.Dark)
+            if (mode == Theme.Dark)
             {
-                Set("AppBackgroundBrush", "#3E2546");   // außen dunkel
-                Set("PanelBackgroundBrush", "#6E4581"); // Karten: heller als außen
+                Set("AppBackgroundBrush", "#3E2546");
+                Set("PanelBackgroundBrush", "#6E4581");
                 Set("TextBrush", "#FFFFFF");
                 Set("AccentBrush", "#8A4B97");
                 Set("AccentBrushLight", "#A66BC4");
@@ -46,7 +48,7 @@ namespace WPF_Quiz_Anwendung
             else
             {
                 Set("AppBackgroundBrush", "#F3C8FF");
-                Set("PanelBackgroundBrush", "#E9C0F0"); // Karten etwas dunkler als außen
+                Set("PanelBackgroundBrush", "#E9C0F0"); 
                 Set("TextBrush", "#000000");
                 Set("AccentBrush", "#C772DF");
                 Set("AccentBrushLight", "#D88BEF");
@@ -54,8 +56,9 @@ namespace WPF_Quiz_Anwendung
             }
 
             CurrentTheme = mode;
-            Properties["Theme"] = mode.ToString();
-            ThemeChanged?.Invoke(this, CurrentTheme);
+            Config.Theme = mode;
+
+            ThemeChanged?.Invoke(this, mode);
         }
     }
 }

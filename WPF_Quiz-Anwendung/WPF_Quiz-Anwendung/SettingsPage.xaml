@@ -4,162 +4,185 @@
       Title="SettingsPage"
       Background="{DynamicResource AppBackgroundBrush}">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="325"/>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="325"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*"/>
+                <!-- Überschrift -->
+                <RowDefinition Height="3*"/>
+                <!-- Accessibility -->
+                <RowDefinition Height="2*"/>
+                <!-- Standardfragen -->
+                <RowDefinition Height="2*"/>
+                <!-- Username ändern -->
+                <RowDefinition Height="2*"/>
+                <!-- Dark mode -->
+                <RowDefinition Height="*"/>
+                <!-- Extra Platz -->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="Überschrift" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
-                   Text="Einstellungen"
-                   FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
-                   FontSize="36"
-                   FontWeight="Bold"
-                   Margin="20,0,0,0"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"/>
+            <!-- Überschrift -->
+            <TextBlock Grid.Row="0"
+                       Text="Einstellungen"
+                       FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
+                       FontSize="48"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
 
-        <!-- Accessibility Box -->
-        <Border x:Name="Border1" Grid.Row="1" Grid.Column="1" CornerRadius="12"
-                Background="{DynamicResource PanelBackgroundBrush}" Padding="8">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="42"/>
-                </Grid.ColumnDefinitions>
+            <!-- Accessibility Box -->
+            <Border Grid.Row="1"
+                    CornerRadius="12"
+                    Background="{DynamicResource PanelBackgroundBrush}"
+                    Padding="16"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="Accessibility" Grid.Row="0" Grid.Column="0"
-                           Text="Accessibility"
-                           FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
-                           FontSize="28"
-                           FontWeight="Bold"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Accessibility"
+                               FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
 
-                <Border Grid.Row="0" Grid.Column="1"
-                        Width="34" Height="34"
-                        CornerRadius="17"
-                        Background="{DynamicResource AccentBrush}">
-                    <Image Source="/Images/AccessibilityIcon.png" Stretch="Fill"/>
-                </Border>
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Width="40" Height="40"
+                            CornerRadius="20"
+                            Background="{DynamicResource AccentBrush}">
+                        <Image Source="/Images/AccessibilityIcon.png" Stretch="Fill"/>
+                    </Border>
 
-                <ListBox x:Name="Box1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                         BorderThickness="0"
-                         Margin="0,4,0,0">
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,4"/>
-                </ListBox>
-            </Grid>
-        </Border>
+                    <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                             BorderThickness="0"
+                             Margin="0,8,0,0"
+                             FontSize="18">
+                        <ListBoxItem Content="Option 1" Background="{DynamicResource AccentBrushLight}" Margin="0,4,0,0" Height="40"/>
+                        <ListBoxItem Content="Option 2" Background="{DynamicResource AccentBrushLight}" Margin="0,4,0,0" Height="40"/>
+                        <ListBoxItem Content="Option 3" Background="{DynamicResource AccentBrushLight}" Margin="0,4,0,0" Height="40"/>
+                        <ListBoxItem Content="Option 4" Background="{DynamicResource AccentBrushLight}" Margin="0,4,0,0" Height="40"/>
+                    </ListBox>
+                </Grid>
+            </Border>
 
-        <!-- Theme Auswahl Box -->
-        <Border x:Name="Border2" Grid.Row="1" Grid.Column="3" CornerRadius="12"
-                Background="{DynamicResource PanelBackgroundBrush}" Padding="8">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <!-- Standardfragen bearbeiten -->
+            <Border Grid.Row="2"
+                    CornerRadius="12"
+                    Background="{DynamicResource PanelBackgroundBrush}"
+                    Padding="16"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Standardfragen bearbeiten"
+                               FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Name="DefaultQuizTextBox"/>
+                    <Button Grid.Column="1"
+                            Content="Durchsuchen"
+                            Style="{StaticResource RoundedButtonStyle}"
+                            Padding="8,6"
+                            Margin="12,0,0,0"
+                            FontSize="16"
+                            Height="40"
+                            Click="DefaultQuestionButton_Click"/>
+                </Grid>
+            </Border>
 
-                <TextBlock x:Name="Theme" Grid.Row="0"
-                           Text="Theme Auswahl"
-                           FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
-                           FontSize="28"
-                           FontWeight="Bold"/>
+            <!-- Username ändern -->
+            <Border Grid.Row="3"
+                    CornerRadius="12"
+                    Background="{DynamicResource PanelBackgroundBrush}"
+                    Padding="16"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Benutzername ändern"
+                               FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center" 
+                               Name="NameTextBox"/>
+                    <Button Grid.Column="1"
+                            Content="Ändern"
+                            Style="{StaticResource RoundedButtonStyle}"
+                            Padding="8,6"
+                            Margin="12,0,0,0"
+                            FontSize="16"
+                            Height="40"
+                            Click="UsernameButton_Click"/>
+                </Grid>
+            </Border>
 
-                <ListBox x:Name="Box2" Grid.Row="1"
-                         BorderThickness="0"
-                         Margin="0,4,0,0">
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,0"/>
-                    <ListBoxItem Content="Placeholder" Background="{DynamicResource AccentBrushLight}" Margin="0,2,0,4"/>
-                </ListBox>
-            </Grid>
-        </Border>
+            <!-- Dark mode -->
+            <Border Grid.Row="4"
+                    CornerRadius="12"
+                    Background="{DynamicResource PanelBackgroundBrush}"
+                    Padding="16"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-        <!-- Standardfragen bearbeiten -->
-        <Border x:Name="Border3" Grid.Row="2" Grid.Column="1" CornerRadius="12"
-                Background="{DynamicResource PanelBackgroundBrush}" Padding="8" Margin="0,20,0,0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="Standardfragen" TextWrapping="Wrap" Grid.Column="0"
-                           Text="Standardfragen bearbeiten"
-                           FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
-                           FontSize="22"
-                           FontWeight="Bold"
-                           Margin="0,2,8,2"/>
-                <Button Grid.Column="1" Content="Durchsuchen"
-                        Style="{StaticResource RoundedButtonStyle}"
-                        Margin="0"
-                        Padding="4,2"
-                        FontSize="12"
-                        BorderBrush="Transparent"
-                        Click="Button_Click"/>
-            </Grid>
-        </Border>
+                    <TextBlock Grid.Column="0"
+                               Text="Dark mode"
+                               FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
 
-        <!-- Dark mode -->
-        <Border x:Name="Border4" Grid.Row="2" Grid.Column="3" CornerRadius="12"
-                Background="{DynamicResource PanelBackgroundBrush}" Padding="8" Margin="0,20,0,0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80"/>
-                </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Column="1"
+                              VerticalAlignment="Center"
+                              Width="80" Height="36"
+                              Checked="DarkModeToggle_Checked"
+                              Unchecked="DarkModeToggle_Unchecked">
+                        <CheckBox.Template>
+                            <ControlTemplate TargetType="CheckBox">
+                                <Grid>
+                                    <Border x:Name="SwitchBackground"
+                                            CornerRadius="18"
+                                            Background="{DynamicResource AccentBrushLight}"/>
+                                    <Ellipse x:Name="Knob"
+                                             Width="32" Height="32"
+                                             Fill="{DynamicResource AccentBrush}"
+                                             Margin="2"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="SwitchBackground" Property="Background" Value="{DynamicResource AccentBrush}"/>
+                                        <Setter TargetName="Knob" Property="Fill" Value="{DynamicResource AccentBrushLight}"/>
+                                        <Setter TargetName="Knob" Property="HorizontalAlignment" Value="Right"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </CheckBox.Template>
+                    </CheckBox>
+                </Grid>
+            </Border>
 
-                <TextBlock x:Name="DarkMode" Grid.Column="0"
-                           Text="Dark mode"
-                           FontFamily="/WPF_Quiz_Anwendung;component/Fonts/#Grandstander"
-                           FontSize="28"
-                           FontWeight="Bold"
-                           Margin="0,2,8,2"/>
-
-                <CheckBox x:Name="DarkModeToggle" Grid.Column="1"
-                          VerticalAlignment="Center"
-                          Width="60" Height="28"
-                          Checked="DarkModeToggle_Checked"
-                          Unchecked="DarkModeToggle_Unchecked">
-                    <CheckBox.Template>
-                        <ControlTemplate TargetType="CheckBox">
-                            <Grid>
-                                <Border x:Name="SwitchBackground"
-                                        CornerRadius="14"
-                                        Background="{DynamicResource AccentBrushLight}"/>
-                                <Ellipse x:Name="Knob"
-                                         Width="24" Height="24"
-                                         Fill="{DynamicResource AccentBrush}"
-                                         Margin="2"
-                                         HorizontalAlignment="Left"
-                                         VerticalAlignment="Center"/>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter TargetName="SwitchBackground" Property="Background" Value="{DynamicResource AccentBrush}"/>
-                                    <Setter TargetName="Knob" Property="Fill" Value="{DynamicResource AccentBrushLight}"/>
-                                    <Setter TargetName="Knob" Property="HorizontalAlignment" Value="Right"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </CheckBox.Template>
-                </CheckBox>
-            </Grid>
-        </Border>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

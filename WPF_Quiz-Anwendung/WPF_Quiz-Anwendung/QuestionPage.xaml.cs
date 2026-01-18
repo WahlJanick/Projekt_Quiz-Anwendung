@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using WPF_Quiz_Anwendung.Classes;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace WPF_Quiz_Anwendung
 {
@@ -17,12 +18,13 @@ namespace WPF_Quiz_Anwendung
         private bool answerClicked;
         private int correctAnswers = 0;
         private bool multiHadError;
-            
+
         public QuestionPage(Quiz quiz)
         {
             InitializeComponent();
             this.PreviewKeyDown += QuestionPage_PreviewKeyDown;
             this.Loaded += (s, e) => { this.Focusable = true; this.Focus(); };
+
             try
             {
                 currentQuiz = quiz;
@@ -32,13 +34,17 @@ namespace WPF_Quiz_Anwendung
             {
                 MessageBox.Show($"Fehler beim Laden des Quiz: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            ;
         }
+
         private void ShowQuestion(int index)
         {
             HelpTitleTB.Text = "[S] Frage überspringen";
             answerClicked = false;
             multiHadError = false;
+
+            if (LeaderboardContainer != null)
+                LeaderboardContainer.Visibility = Visibility.Collapsed;
+
             if (currentQuiz == null || currentQuiz.Questions.Count == 0)
             {
                 QuestionTitleTB.Text = "Kein Quiz geladen!";
@@ -48,11 +54,13 @@ namespace WPF_Quiz_Anwendung
 
             if (index < 0 || index >= currentQuiz.Questions.Count)
                 return;
+
             var currentQuestion = currentQuiz.Questions[index];
             QuestionTitleTB.Text = $"Frage {index + 1}/{currentQuiz.Questions.Count}: {currentQuestion.Text}";
             AnswerGrid.Children.Clear();
+            AnswerGrid.Visibility = Visibility.Visible;
 
-            for (int i = 0; i < currentQuestion.Answers.Count; i++)
+            foreach (var answer in currentQuestion.Answers.Select((a, i) => new { a, i }))
             {
                 var border = new Border
                 {
@@ -61,9 +69,9 @@ namespace WPF_Quiz_Anwendung
                 };
                 var button = new Button
                 {
-                    Content = currentQuestion.Answers[i].Text,
+                    Content = answer.a.Text,
                     Style = (Style)FindResource("RoundedButtonStyle"),
-                    Tag = i 
+                    Tag = answer.i
                 };
                 button.Click += AnswerClick;
                 border.Child = button;
@@ -87,28 +95,19 @@ namespace WPF_Quiz_Anwendung
 
                 btn.Background = isCorrect ? Brushes.LightGreen : Brushes.LightCoral;
                 QuestionTitleTB.Text = isCorrect ? "Richtig!" : "Falsch!";
-                if (isCorrect)
-                {
-                    QuestionTitleTB.Text = "Richtig!";
-                    correctAnswers++;
-                }
-                else QuestionTitleTB.Text = "Falsch!";
+                if (isCorrect) correctAnswers++;
+
                 foreach (Border border in AnswerGrid.Children)
-                {
-                    if (border.Child is Button b)
-                        b.IsEnabled = false;
-                }
+                    if (border.Child is Button b) b.IsEnabled = false;
 
                 await Task.Delay(2000);
                 NextQuestion();
             }
             else if (currentQuestion.Type == QuestionType.MultipleRightAnswers)
-            { 
+            {
                 btn.IsEnabled = false;
-                if (isCorrect) 
-                {
-                    btn.Background = Brushes.LightGreen;
-                }
+
+                if (isCorrect) btn.Background = Brushes.LightGreen;
                 else
                 {
                     multiHadError = true;
@@ -116,10 +115,7 @@ namespace WPF_Quiz_Anwendung
                     QuestionTitleTB.Text = "Falsch!";
 
                     foreach (Border border in AnswerGrid.Children)
-                    {
-                        if (border.Child is Button b)
-                            b.IsEnabled = false;
-                    }
+                        if (border.Child is Button b) b.IsEnabled = false;
 
                     await Task.Delay(2000);
                     NextQuestion();
@@ -145,10 +141,8 @@ namespace WPF_Quiz_Anwendung
                     QuestionTitleTB.Text = "Richtig!";
                     correctAnswers++;
                     foreach (Border border in AnswerGrid.Children)
-                    {
-                        if (border.Child is Button b)
-                            b.IsEnabled = false;
-                    }
+                        if (border.Child is Button b) b.IsEnabled = false;
+
                     await Task.Delay(2000);
                     NextQuestion();
                 }
@@ -159,24 +153,82 @@ namespace WPF_Quiz_Anwendung
         {
             currentIndex++;
             if (currentIndex < currentQuiz.Questions.Count)
-            {
                 ShowQuestion(currentIndex);
-            }
             else
-            {
-                double scorepercent = (double)correctAnswers / (double)currentQuiz.Questions.Count;
-                QuestionTitleTB.Text = $"Quiz beendet mit {(scorepercent * 100):F2}% richtigen Antworten";
-                HelpTitleTB.Text = "[ESC] um zum Hauptmenü zurückzukehren...";
-                AnswerGrid.Children.Clear();
-            }
+                ShowQuizEnd();
         }
+
+        private void ShowQuizEnd()
+        {
+            double scorePercent = (double)correctAnswers / currentQuiz.Questions.Count;
+            QuestionTitleTB.Text = $"Quiz beendet mit {(scorePercent * 100):F2}% richtigen Antworten";
+            HelpTitleTB.Text = "[ESC] um zum Hauptmenü zurückzukehren...";
+            AnswerGrid.Children.Clear();
+            AnswerGrid.Visibility = Visibility.Collapsed;
+
+            if (!string.IsNullOrEmpty(Quiz.currentPath))
+            {
+                try
+                {
+                    QuizFileHandler.SaveQuizToFile(currentQuiz, scorePercent, Quiz.currentPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Speichern: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+
+            ShowLeaderboard();
+        }
+
+        private void ShowLeaderboard()
+        {
+            if (LeaderboardContainer == null || LeaderboardListBox == null)
+                return;
+
+            if (currentQuiz == null)
+                return;
+
+            if (currentQuiz.Leaderboard == null)
+                currentQuiz.Leaderboard = new List<LeaderboardEntry>();
+
+            var entries = new List<LeaderboardEntry>(currentQuiz.Leaderboard);
+            entries.Sort(CompareLeaderboardEntry);
+
+            var lines = new List<string>();
+            for (int i = 0; i < entries.Count; i++)
+            {
+                var e = entries[i];
+                string user = string.IsNullOrWhiteSpace(e.Username) ? "-" : e.Username;
+                string score = (e.Score * 100).ToString("F2", CultureInfo.InvariantCulture) + "%";
+                string time = e.Timestamp.ToString("dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                lines.Add(string.Format(CultureInfo.InvariantCulture, "{0,2}. {1,-16}  {2}  ({3})", i + 1, user, score, time));
+            }
+
+            LeaderboardListBox.ItemsSource = lines;
+            LeaderboardContainer.Visibility = Visibility.Visible;
+        }
+
+        private static int CompareLeaderboardEntry(LeaderboardEntry a, LeaderboardEntry b)
+        {
+            if (ReferenceEquals(a, b)) return 0;
+            if (a == null) return 1;
+            if (b == null) return -1;
+
+            int scoreCompare = b.Score.CompareTo(a.Score); 
+            if (scoreCompare != 0) return scoreCompare;
+
+            return b.Timestamp.CompareTo(a.Timestamp);
+        }
+
         private void SkipQuestion()
         {
+            currentIndex++;
             if (currentIndex < currentQuiz.Questions.Count)
-            {
-                currentIndex++;
                 ShowQuestion(currentIndex);
-            }
+            else
+                ShowQuizEnd();
         }
 
         private void QuestionPage_PreviewKeyDown(object sender, KeyEventArgs e)
