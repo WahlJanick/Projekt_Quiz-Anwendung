@@ -1,4 +1,4 @@
-# Quiz-Anwendung
+# Quizzzard
 <ins>Einteilung</ins>\
 Repository-Management: Wahl\
 Projektplanung: Deisl\
