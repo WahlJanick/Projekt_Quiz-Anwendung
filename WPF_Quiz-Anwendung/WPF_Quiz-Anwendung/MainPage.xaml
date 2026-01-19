@@ -37,7 +37,7 @@
                     BorderBrush="{DynamicResource BorderBrush}"
                     Content="Quiz Laden"
                     FontFamily="Grandstander"
-                    Click="LoadQuiz"
+                    Click="LoadQuiz_Click"
                     Style="{StaticResource RoundedButtonStyle}"/>
 
             <Button x:Name="Create_Quiz" Grid.Column="2" Grid.Row="1"
